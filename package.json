@@ -10,18 +10,23 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@saipulanuar/google-translate-api": "^8.0.0",
+    "bing-translate-api": "^2.10.0",
+    "languagedetect": "^2.0.0",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
     "react-markdown": "^9.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "rehype-raw": "^7.0.0",
-    "remark-gfm": "^4.0.0"
+    "remark-gfm": "^4.0.0",
+    "string-similarity": "^4.0.4"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/string-similarity": "^4.0.2",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",

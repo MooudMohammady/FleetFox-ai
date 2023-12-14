@@ -25,7 +25,7 @@ export default function ChatLayout({
         height={150}
         alt={"FleetFox.ai"}
         quality={100}
-        className="w-44 mx-auto"
+        className="w-44"
       />
       <section className="flex flex-col justify-between h-full">
         <Link
@@ -52,7 +52,7 @@ export default function ChatLayout({
         </button>
       </section>
     </aside>
-    <main className="flex-1 bg-zinc-800">{children}</main>
+    <main className="flex-1 bg-zinc-800 h-screen overflow-auto">{children}</main>
   </div>
   )
 }

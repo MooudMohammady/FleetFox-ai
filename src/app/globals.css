@@ -11,6 +11,14 @@
   border-radius: 10px;
   background-color: rgb(63 63 70);
 }
+.chat-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background-color: rgb(39 39 42);
+}
+.chat-scrollbar::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background-color: rgb(63 63 70);
+}
 
 .bg-border-gradient{
   background: linear-gradient(35deg,rgb(50 50 60),rgb(63 63 70)) padding-box,linear-gradient(#eab30880,#f9731680) border-box;
