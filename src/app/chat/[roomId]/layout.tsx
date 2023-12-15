@@ -27,7 +27,7 @@ export default function ChatLayout({
         quality={100}
         className="w-44"
       />
-      <section className="flex flex-col justify-between h-full">
+      <section className="flex flex-col justify-between h-full overflow-auto">
         <Link
           href={"/chat/random-new-chat"}
           className="my-5 py-2 bg-zinc-800 hover:bg-zinc-700 transition-colors rounded-md text-center">

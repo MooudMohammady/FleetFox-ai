@@ -16,7 +16,7 @@
   },
   {"tag": "name",
    "patterns": ["what is your name", "what should I call you", "whats your name?"],
-   "responses": ["You can call me Fleet Fox.", "I'm Fleet Fox!"],
+   "responses": ["You can call me Fox.", "I'm Fleet Fox!"],
    "context_set": ""
   },
   {"tag": "shop",
