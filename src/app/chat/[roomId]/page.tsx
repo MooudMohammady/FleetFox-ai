@@ -2,13 +2,21 @@
 "use client";
 import { MarkDownDefault } from "@/utils/MarkDown";
 import Image from "next/image";
-import React, { LegacyRef, MutableRefObject, createElement, useEffect, useRef, useState } from "react";
+import React, {
+  LegacyRef,
+  MutableRefObject,
+  createElement,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Markdown, { Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 // import { fakeChat } from "@/data/fakeChat";
 import axios from "axios";
 import Typing from "react-typing-effect";
+import { Switch } from "@headlessui/react";
 
 type MessageType = {
   bot: boolean;
@@ -19,6 +27,7 @@ export default function Chat() {
   const [textAreaHeight, setTextAreaHeight] = useState(52);
   const [messages, setMessages] = useState<MessageType[] | []>([]);
   const [loading, setLoading] = useState(false);
+  const [rtlDirection, setRltDirection] = useState(false);
 
   const chatsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -31,12 +40,14 @@ export default function Chat() {
 
   const submitMessage = async (question: string) => {
     setLoading(true);
+    let textareaElemet = document.getElementById('prompt-textarea') as HTMLTextAreaElement;
+    textareaElemet.value = "";
     setMessages([...messages, { bot: false, message: question }]);
     await axios
-      .post("/api/chat", {
-        question: question,
-      })
-      .then((res) => {
+    .post("/api/chat", {
+      question: question,
+    })
+    .then((res) => {
         console.log(res);
         setMessages((m) => [...m, { bot: true, message: res.data.answer }]);
         chatsContainerRef.current?.scrollTo(
@@ -52,9 +63,12 @@ export default function Chat() {
       e.preventDefault();
       setTextAreaHeight(52);
       submitMessage(e.currentTarget.value);
-      e.currentTarget.value = "";
     }
-    if (e.shiftKey && e.key === "Enter" && +e.currentTarget.style.height.split('px')[0] < 196) {
+    if (
+      e.shiftKey &&
+      e.key === "Enter" &&
+      +e.currentTarget.style.height.split("px")[0] < 196
+    ) {
       setTextAreaHeight(textAreaHeight + 24);
     }
     if (
@@ -98,9 +112,25 @@ export default function Chat() {
                 </svg>
               </div>
             </div>
-            <div className="flex gap-2 pr-1"></div>
+            <div className="flex gap-2 pr-1 items-center">
+              RTL : 
+              <Switch
+                checked={rtlDirection}
+                onChange={setRltDirection}
+                className={`${rtlDirection ? "bg-orange-500" : "border border-orange-500"}
+          relative inline-flex h-[30px] w-[50px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}>
+                <span className="sr-only">Use setting</span>
+                <span
+                  aria-hidden="true"
+                  className={`${
+                    rtlDirection ? "translate-x-5" : "translate-x-0"
+                  }
+            pointer-events-none inline-block h-[27px] w-[27px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                />
+              </Switch>
+            </div>
           </div>
-          <div className="relative h-full">
+          <div className="relative h-full" dir={rtlDirection ? "rtl" : "ltr"}>
             {messages && messages.length > 0 ? (
               <div className="flex flex-col gap-5 pb-10 mx-auto max-w-4xl">
                 {messages.map((m, i) =>
@@ -117,7 +147,7 @@ export default function Chat() {
                           className="rounded-full"
                         />
                       </div>
-                      <div className="bg-border-gradient border border-transparent p-2 rounded-lg rounded-tl-none shadow-md">
+                      <div className={`bg-border-gradient border border-transparent p-2 rounded-lg shadow-md ${rtlDirection ? 'rounded-tr-none' : 'rounded-tl-none'}`}>
                         <div className="mb-1 font-bold">FleetFox</div>
                         <Typing
                           text={[m.message]}
@@ -151,7 +181,7 @@ export default function Chat() {
                           className="rounded-full"
                         />
                       </div>
-                      <div className="bg-zinc-700 p-2 rounded-lg rounded-tl-none shadow-md">
+                      <div className={`bg-zinc-700 p-2 rounded-lg shadow-md ${rtlDirection ? 'rounded-tr-none' : 'rounded-tl-none'}`}>
                         <div className="mb-1 font-bold">You</div>
                         <Markdown
                           remarkPlugins={[remarkGfm]}
@@ -175,7 +205,7 @@ export default function Chat() {
                         className="rounded-full"
                       />
                     </div>
-                    <div className="bg-border-gradient border border-transparent p-2 rounded-lg rounded-tl-none shadow-md">
+                    <div  className={`bg-border-gradient border border-transparent p-2 rounded-lg shadow-md ${rtlDirection ? 'rounded-tr-none' : 'rounded-tl-none'}`}>
                       <div className="mb-1 font-bold">FleetFox</div>
                       <img
                         src="/images/loading.svg"
@@ -225,7 +255,7 @@ export default function Chat() {
                     className="m-0 w-full resize-none border-0 bg-transparent py-[10px] pr-10 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:py-3.5 md:pr-12 placeholder-black/50 dark:placeholder-white/50 pl-3 md:pl-4 whitespace-pre-line"></textarea>
                   <button
                     disabled={loading}
-                    className="absolute md:bottom-3 md:right-3 dark:hover:opacity-70 transition dark:disabled:hover:bg-transparent right-2 dark:disabled:bg-white disabled:bg-black disabled:opacity-10 disabled:text-zinc-400 enabled:bg-gradient-to-br from-yellow-500 to-orange-500 text-white p-0.5 border border-black rounded-lg dark:border-yellow-400 dark:bg-white bottom-1.5"
+                    className="absolute md:bottom-3 md:right-3 hover:opacity-70 transition dark:disabled:hover:opacity-20 right-2 disabled:opacity-20 bg-gradient-to-br from-yellow-500 to-orange-500 text-white p-0.5 border border-black rounded-lg dark:border-yellow-400 bottom-1.5"
                     data-testid="send-button">
                     <span className="" data-state="closed">
                       <svg

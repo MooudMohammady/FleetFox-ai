@@ -52,7 +52,7 @@ export const MarkDownDefault = {
         {...props}
         style={materialDark}
         language={match[1]}
-        PreTag="div">
+        PreTag="div" dir='ltr' className='rounded-lg'>
         {String(children).replace(/\n$/, "")}
       </SyntaxHighlighter>
     ) : (
